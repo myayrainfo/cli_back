@@ -18,7 +18,7 @@ The backend follows a simple Express structure:
 - `src/routes` defines endpoints
 - `src/controllers` contains request handling logic
 - `src/models` contains Mongoose models
-- `src/config` contains shared configuration like database connection
+- `src/config` contains shared configuration like DB connection
 - `src/seed` contains demo seed scripts
 
 ## Run locally
