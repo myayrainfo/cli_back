@@ -18,6 +18,8 @@ const medicineBatchSchema = new mongoose.Schema(
     manufacturingDate: Date,
     expiryDate: { type: Date, required: true },
     quantity: { type: Number, default: 0 },
+    mrp: { type: Number, default: 0 },
+    purchasePrice: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
