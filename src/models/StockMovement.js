@@ -12,11 +12,13 @@ const stockMovementSchema = new mongoose.Schema(
     batchId: { type: mongoose.Schema.Types.ObjectId, ref: "MedicineBatch" },
     type: {
       type: String,
-      enum: ["IN", "OUT", "ADJUSTMENT"],
+      enum: ["IN", "OUT", "RETURN", "ADJUSTMENT"],
       required: true,
     },
     quantity: { type: Number, required: true },
     reason: String,
+    referenceType: String,
+    referenceId: mongoose.Schema.Types.ObjectId,
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

@@ -1,9 +1,9 @@
 import AuditLog from "../models/AuditLog.js";
 import Customer from "../models/Customer.js";
+import Invoice from "../models/Invoice.js";
 import Medicine from "../models/Medicine.js";
 import MedicineBatch from "../models/MedicineBatch.js";
 import Purchase from "../models/Purchase.js";
-import Sale from "../models/Sale.js";
 import StockMovement from "../models/StockMovement.js";
 import Supplier from "../models/Supplier.js";
 
@@ -30,13 +30,13 @@ export const getDashboardSummary = async (req, res) => {
     customers,
     suppliers,
   ] = await Promise.all([
-    Sale.find({ tenantId, saleDate: { $gte: today } }),
+    Invoice.find({ tenantId, createdAt: { $gte: today } }),
     Purchase.find({ tenantId, purchaseDate: { $gte: today } }),
-    Sale.find({ tenantId }).sort({ saleDate: -1 }),
+    Invoice.find({ tenantId }).sort({ createdAt: -1 }),
     Purchase.find({ tenantId }).sort({ purchaseDate: -1 }),
     Medicine.find({ tenantId }),
     MedicineBatch.find({ tenantId }).populate("medicineId", "name minimumStock rackLocation"),
-    Sale.find({ tenantId }).sort({ saleDate: -1 }).limit(5),
+    Invoice.find({ tenantId }).sort({ createdAt: -1 }).limit(5),
     StockMovement.find({ tenantId }).sort({ createdAt: -1 }).limit(5).populate("medicineId", "name"),
     Customer.find({ tenantId }),
     Supplier.find({ tenantId }),
@@ -93,7 +93,7 @@ export const getDashboardSummary = async (req, res) => {
     recentBills,
     recentStockUpdates,
     salesSummaryChart: sales.slice(0, 7).reverse().map((sale) => ({
-      label: new Date(sale.saleDate).toLocaleDateString(),
+      label: new Date(sale.createdAt).toLocaleDateString(),
       total: sale.grandTotal,
     })),
     purchaseSummaryChart: purchases.slice(0, 7).reverse().map((purchase) => ({
